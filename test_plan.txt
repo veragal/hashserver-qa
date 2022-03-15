@@ -1,0 +1,67 @@
+Project Name : JumpCloud
+Module name: Password Hash
+Created by: Vera Galstyan
+Created at : 03/13/2022
+Executed by : Vera Galstyan
+Executed at: 03/14/2022
+
+
+API testing
+Test scenarios
+
+POST
+
+1. Verify that password is successfully sent to the server and status code is 201?200
+2. Verify when password is successfully accepted, the job id should be returned
+3. Verify when password is successfully accepted, the returned job id is an integer
+4. Verify that when password is successfully accepted, the response body is not none
+5. Verify that password of special characters can be successfully accepted
+6. Verify that empty password is successfully accepted and appropriate  job id is returned
+7. Verify that one character password is successfully accepted and the appropriate  job id is returned
+8. Verify that password with space should be successfully accepted
+
+GET
+
+1. Verify that base64 encoded password is returned for valid id
+2. Verify that the returned hash corresponds to sha512 algorithm
+3. Verify that encoded password is not returned for invalid id
+4. Verify that different passwords do not have the same hash
+5. Verify that same password will return the same hash
+6. Verify that returned job id should be positive integer
+7. Verify that when sending one password after another, the difference between returned ids should be 1
+8. Verify that job id can be returned if in the header application/json is not sent
+9. Verify when get request is sent, the content type of header is a text
+10. Verify get stats of all jobs should not accept any input data
+11. Verify get all jobs stats returns json data structure
+12. Verify get stats of all jobs returns total requests in response
+13. Verify get stats of all jobs returns number of created jobs
+14. Verify get stats of all jobs returns average time of hash in response
+15. Verify get stats of all jobs returns average time in integers
+16. Verify get stats of all jobs shows correct number of jobs
+17. Verify that multiple passwords can be sent simultaneously to the server
+18. Verify that when password is sent,the id is returned immediately and hash is created after 5 sec
+19. Verify shutting down should allow any in flight password hashing to complete
+20. Verify shutting down should return empty response
+
+
+* Bugs
+Post returns job id immediately and get returns the hash after waiting 5 sec. BUG REPORT
+
+Defect ID: 0001
+Project Name: Jumpcloud
+Module name: Password Hash
+Title/Summary: Job id is not returned immediately when a password is sent to the server
+Build Version: 2.8
+Priority: Medium
+Status: New
+Steps To Reproduce:
+1) Create a payload in json format with the desired password
+2) Make a POST request to localhost 8080/hash with the created payload and timeout of 1 sec
+3) Check if the status code of the sent request is 200
+Actual Result: The appropriate job id is returned after waiting 5 sec from the post request
+Expected Result: Post request with the password to the server should return a job identifier immediately
+Attachments: N/A
+
+
+* Suggestion:
+! Change the status code for successful POST request to 201
